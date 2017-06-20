@@ -41,7 +41,7 @@ You can also specify which application you want to update if you want to update 
 
 The updater will download the latest version and update the files inside the applications folder. When it is done, it will try to run the updated application. You can modify this behavior by setting the method parameter of `Update.Run()` accordingly.
 
-![Updater screenshot](/Documentation/Screenshots/Updater Screenshot.png?raw=true "Screenshot of the updater while updating 'My App' example application")
+![Updater screenshot](/Documentation/Screenshots/Updater%20Screenshot.png?raw=true "Screenshot of the updater while updating 'My App' example application")
 
 By default, the updater deletes everything inside the applications directory when it updates it, but you can specify which directories inside to leave as they are (for example *Resources*).
 

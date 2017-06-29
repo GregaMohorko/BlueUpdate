@@ -14,4 +14,7 @@
     <copyright>Copyright (c) 2017 Grega Mohorko</copyright>
     <tags>Update Updater Version Check Checksum</tags>
   </metadata>
+  <files>
+	<file src="readme.txt" target="" />
+  </files>
 </package>

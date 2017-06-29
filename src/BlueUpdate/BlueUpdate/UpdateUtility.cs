@@ -25,7 +25,7 @@ namespace BlueUpdate
 		{
 			get
 			{
-				var assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.AssemblyType.Library);
+				var assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.GetAssembly(ReflectionUtility.AssemblyType.Current));
 				return new UpdatableApp(BlueUpdateConstants.UpdaterName, assembly.Version, assembly.Version, BlueUpdateConstants.UpdaterAddress, BlueUpdateConstants.UpdaterDirectoryName);
 			}
 		}

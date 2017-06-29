@@ -97,8 +97,13 @@ protected override void OnStartup(StartupEventArgs e)
         Shutdown();
         return;
       }
-    } catch(WebException) {
-      // there is no internet ...
+    } catch(WebException ex) {
+      if(ex.Status == WebExceptionStatus.NameResolutionFailure) {
+        MessageBox.Show("The update address that you specified does not exist.");
+        Shutdown();
+        return;
+      }
+      // there probably is no internet ...
       // do nothing
     } catch(Exception ex) {
       MessageBox.Show("Error: " + ex.Message);

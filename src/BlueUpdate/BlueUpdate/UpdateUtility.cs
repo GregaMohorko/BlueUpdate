@@ -12,7 +12,7 @@ using System.Xml.Linq;
 using BlueUpdate.Common;
 using BlueUpdate.IO;
 using BlueUpdate.Security.Cryptography;
-using BlueUpdate.Utility;
+using GM.Utility;
 
 namespace BlueUpdate
 {

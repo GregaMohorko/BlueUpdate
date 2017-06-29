@@ -34,6 +34,10 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GM.Utility, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GM.Utility.1.0.0.1\lib\net461\GM.Utility.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,10 +58,10 @@
     <Compile Include="Security\Cryptography\Sha256.cs" />
     <Compile Include="Update.cs" />
     <Compile Include="UpdateUtility.cs" />
-    <Compile Include="Utility\IOUtility.cs" />
-    <Compile Include="Utility\ReflectionUtility.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

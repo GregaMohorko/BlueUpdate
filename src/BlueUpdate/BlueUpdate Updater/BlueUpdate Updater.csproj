@@ -42,6 +42,10 @@
       <HintPath>..\packages\ByteSize.1.3.0\lib\net45\ByteSize.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GM.Utility, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GM.Utility.1.0.0.1\lib\net461\GM.Utility.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />

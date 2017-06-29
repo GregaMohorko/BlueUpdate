@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using BlueUpdate.Common;
 using BlueUpdate.IO;
-using BlueUpdate.Utility;
+using GM.Utility;
 
 namespace BlueUpdate
 {

@@ -11,8 +11,8 @@ using System.Windows;
 using BlueUpdate;
 using BlueUpdate.Common;
 using BlueUpdate.IO;
-using BlueUpdate.Utility;
 using BlueUpdate_Updater.Presentation;
+using GM.Utility;
 
 namespace BlueUpdate_Updater
 {

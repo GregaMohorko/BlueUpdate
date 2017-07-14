@@ -1,7 +1,8 @@
 # BlueUpdate
 A toolkit for automatic updating of .NET applications from the web. It can be used as a simple deployment tool. Includes it's own executable updater, which is automatically downloaded the first time the application starts.
 
-Latest release: [v1.0.1.1](https://github.com/GregaMohorko/BlueUpdate/releases/latest)
+[![Release](https://img.shields.io/github/release/GregaMohorko/BlueUpdate.svg?style=flat-square)](https://github.com/GregaMohorko/BlueUpdate/releases/latest)
+[![NuGet](https://img.shields.io/nuget/v/BlueUpdate.svg?style=flat-square)](https://www.nuget.org/packages/BlueUpdate)
 
 ## Usage
 ```C#

@@ -1,5 +1,5 @@
 # BlueUpdate
-A toolkit for automatic updating of .NET applications from the web. Includes it's own executable updater, which is automatically downloaded the first time the application starts.
+A toolkit for automatic updating of .NET applications from the web. It can be used as a simple deployment tool. Includes it's own executable updater, which is automatically downloaded the first time the application starts.
 
 Latest release: [v1.0.1.1](https://github.com/GregaMohorko/BlueUpdate/releases/latest)
 

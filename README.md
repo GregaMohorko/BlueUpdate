@@ -127,7 +127,7 @@ protected override void OnStartup(StartupEventArgs e)
 .NET Framework 4.6.1
 
 ## Author and License
-Grega Mohorko ([www.mohorko.info](http://www.mohorko.info))
+Grega Mohorko ([www.mohorko.info](https://www.mohorko.info))
 
 Copyright (c) 2017 Grega Mohorko
 

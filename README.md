@@ -83,7 +83,7 @@ protected override void OnStartup(StartupEventArgs e)
       
       // set the current application
       var assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.AssemblyType.Application);
-      UpdatableApp = new UpdatableApp(
+      UpdatableApp.Current = new UpdatableApp(
         assembly.Title,
         assembly.Version,
         latestVersion,

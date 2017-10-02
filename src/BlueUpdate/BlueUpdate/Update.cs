@@ -97,10 +97,10 @@ namespace BlueUpdate
 		/// The application should be shut down right after calling this method.
 		/// </para>
 		/// </summary>
-		/// <param name="runAfterUpdate">Determines whether to run the application after the update.</param>
-		public static void Run(bool runAfterUpdate=true)
+		/// <param name="updaterBehavior">Determines the behavior of the updater application.</param>
+		public static void Run(UpdaterBehavior updaterBehavior=UpdaterBehavior.RUN_AFTER_UPDATE)
 		{
-			Run(UpdatableApp.Current, runAfterUpdate);
+			Run(UpdatableApp.Current, updaterBehavior);
 		}
 
 		/// <summary>
@@ -110,8 +110,8 @@ namespace BlueUpdate
 		/// </para>
 		/// </summary>
 		/// <param name="application">The application to update.</param>
-		/// <param name="runAfterUpdate">Determines whether to run the application after the update.</param>
-		public static void Run(UpdatableApp application, bool runAfterUpdate=true)
+		/// <param name="updaterBehavior">Determines the behavior of the updater application.</param>
+		public static void Run(UpdatableApp application, UpdaterBehavior updaterBehavior=UpdaterBehavior.RUN_AFTER_UPDATE)
 		{
 			if(Updater == null) {
 				throw new InvalidOperationException("The Updater was not successfully installed.");
@@ -131,7 +131,8 @@ namespace BlueUpdate
 				application.DirectoryName,
 				application.Address,
 				ignoredDirectories,
-				runAfterUpdate.ToString()
+				updaterBehavior.ToString(),
+				string.Join(" ",Environment.GetCommandLineArgs().Skip(1))
 			};
 
 			// prepare the process

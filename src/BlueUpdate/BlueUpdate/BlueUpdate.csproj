@@ -34,9 +34,8 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GM.Utility, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GM.Utility.1.0.0.1\lib\net461\GM.Utility.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="GM.Utility, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GM.Utility.1.0.0.2\lib\net461\GM.Utility.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -50,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UpdaterBehavior.cs" />
     <Compile Include="UpdatableApp.cs" />
     <Compile Include="Common\BlueUpdateConstants.cs" />
     <Compile Include="IO\Files.cs" />

@@ -12,7 +12,7 @@ namespace BlueUpdate.Common
 		public const string UpdaterDirectoryName = "Updater";
 		public const string TempDirectoryName = "Updater tmp";
 
-		internal const string UpdaterAddress = "http://blueupdate.mohorko.info/";
+		internal const string UpdaterAddress = "https://blueupdate.mohorko.info/";
 
 		internal const string BackupSuffix = "_BUbackup";
 	}

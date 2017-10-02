@@ -26,19 +26,20 @@ namespace BlueUpdate_Updater
 			ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
 			UpdatableApp appToUpdate;
-			bool runAfterUpdate;
+			UpdaterBehavior updaterBehavior=UpdaterBehavior.SHOW_MESSAGES;
+			string arguments = null;
 
 			try {
 				// set the current application as the updater
-				var assembly =ReflectionUtility.GetAssemblyInformation(ReflectionUtility.AssemblyType.Application);
+				var assembly =ReflectionUtility.GetAssemblyInformation(ReflectionUtility.GetAssembly(ReflectionUtility.AssemblyType.Application));
 				UpdatableApp.Current = new UpdatableApp(BlueUpdateConstants.UpdaterName, assembly.Version, null, null, BlueUpdateConstants.UpdaterDirectoryName);
 				
 				// check arguments
-				if(e.Args.Length != 6) {
+				if(e.Args.Length < 6 || e.Args.Length > 7) {
 					throw new Exception("Code 10.");
 				}
 
-				if(!bool.TryParse(UpdateUtility.FromProcessArgument(e.Args[5]), out runAfterUpdate)) {
+				if(!Enum.TryParse(e.Args[5], out updaterBehavior)) {
 					throw new Exception("Code 20.");
 				}
 
@@ -47,8 +48,12 @@ namespace BlueUpdate_Updater
 				if(appToUpdate.Name == "Updater") {
 					throw new Exception("Application must not be named 'Updater'.");
 				}
+
+				if(e.Args.Length == 7) {
+					arguments = UpdateUtility.FromProcessArgument(e.Args[6]);
+				}
 			} catch(Exception ex) {
-				HandleError("Error", ex);
+				HandleError("Error", ex, updaterBehavior);
 				Shutdown();
 				return;
 			}
@@ -61,43 +66,55 @@ namespace BlueUpdate_Updater
 					throw mainWindow.Error;
 				}
 			}catch(WebException ex) {
-				HandleError($"There was a problem with the internet connection while updating {appToUpdate.Name}", ex);
+				HandleError($"There was a problem with the internet connection while updating {appToUpdate.Name}", ex, updaterBehavior);
 				Shutdown();
 				return;
 			}catch(Exception ex) {
-				HandleError($"There was an error while updating {appToUpdate.Name}", ex);
+				HandleError($"There was an error while updating {appToUpdate.Name}", ex, updaterBehavior);
 				Shutdown();
 				return;
 			}
 
-			if(runAfterUpdate) {
-				// startup the updated application
-				try {
-					FileInfo executable = Files.GetExecutable(appToUpdate);
-					if(executable == null) {
-						throw new Exception($"The executable file '{appToUpdate.Name}.exe' could not be found.");
-					}
+			switch(updaterBehavior) {
+				case UpdaterBehavior.SHOW_MESSAGES:
+					MessageBox.Show($"{appToUpdate.Name} was successfully updated!", "Update finished");
+					break;
+				case UpdaterBehavior.RUN_AFTER_UPDATE:
+					// startup the updated application
+					try {
+						FileInfo executable = Files.GetExecutable(appToUpdate);
+						if(executable == null) {
+							throw new Exception($"The executable file '{appToUpdate.Name}.exe' could not be found.");
+						}
 
-					Process.Start(executable.FullName);
-				} catch(Exception ex) {
-					HandleError($"There was an error while trying to run the updated version of {appToUpdate.Name}", ex);
-				}
-			}else {
-				MessageBox.Show($"{appToUpdate.Name} was successfully updated!","Update finished");
+						// prepare the process
+						var process = new Process();
+						process.StartInfo.FileName = executable.FullName;
+						process.StartInfo.Arguments = arguments;
+
+						// start the process
+						process.Start();
+					} catch(Exception ex) {
+						HandleError($"There was an error while trying to run the updated version of {appToUpdate.Name}", ex, updaterBehavior);
+					}
+					break;
 			}
 
 			Shutdown();
 		}
 
-		private void HandleError(string initialMessage,Exception error)
+		private void HandleError(string initialMessage,Exception error,UpdaterBehavior updaterBehavior)
 		{
+			if(updaterBehavior == UpdaterBehavior.HIDDEN) {
+				return;
+			}
+
 			string message = $"{initialMessage}:";
 			while(error != null) {
 				message += $"{Environment.NewLine}{Environment.NewLine}{error.Message}";
 				error = error.InnerException;
 			}
 			MessageBox.Show(message, "Error");
-
 		}
 
 		private UpdatableApp AppFromArgs(StartupEventArgs e)

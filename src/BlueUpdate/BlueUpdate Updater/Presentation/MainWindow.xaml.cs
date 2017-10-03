@@ -31,14 +31,16 @@ namespace BlueUpdate_Updater.Presentation
 		public Exception Error { get; private set; }
 
 		private readonly UpdatableApp appToUpdate;
+		private readonly ICredentials credentials;
 
 		private bool isFinished;
 
-		public MainWindow(UpdatableApp appToUpdate)
+		public MainWindow(UpdatableApp appToUpdate,ICredentials credentials)
 		{
 			InitializeComponent();
 
 			this.appToUpdate = appToUpdate;
+			this.credentials = credentials;
 
 			_Label_Title.Content = $"Updating {appToUpdate.Name}";
 		}
@@ -78,7 +80,7 @@ namespace BlueUpdate_Updater.Presentation
 			};
 
 			try {
-				UpdateUtility.Update(appToUpdate, updateCompleted, updateProgressChanged);
+				UpdateUtility.Update(appToUpdate, credentials, updateCompleted, updateProgressChanged);
 			}catch(Exception e) {
 				updateCompleted(new AsyncCompletedEventArgs(e, false, null));
 			}

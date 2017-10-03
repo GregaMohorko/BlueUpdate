@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -98,9 +99,10 @@ namespace BlueUpdate
 		/// </para>
 		/// </summary>
 		/// <param name="updaterBehavior">Determines the behavior of the updater application.</param>
-		public static void Run(UpdaterBehavior updaterBehavior=UpdaterBehavior.RUN_AFTER_UPDATE)
+		/// <param name="credentials">The network credentials that are sent to the host and used to authenticate the request.</param>
+		public static void Run(UpdaterBehavior updaterBehavior=UpdaterBehavior.RUN_AFTER_UPDATE, NetworkCredential credentials = null)
 		{
-			Run(UpdatableApp.Current, updaterBehavior);
+			Run(UpdatableApp.Current, updaterBehavior, credentials);
 		}
 
 		/// <summary>
@@ -111,7 +113,8 @@ namespace BlueUpdate
 		/// </summary>
 		/// <param name="application">The application to update.</param>
 		/// <param name="updaterBehavior">Determines the behavior of the updater application.</param>
-		public static void Run(UpdatableApp application, UpdaterBehavior updaterBehavior=UpdaterBehavior.RUN_AFTER_UPDATE)
+		/// <param name="credentials">The network credentials that are sent to the host and used to authenticate the request.</param>
+		public static void Run(UpdatableApp application, UpdaterBehavior updaterBehavior=UpdaterBehavior.RUN_AFTER_UPDATE, NetworkCredential credentials=null)
 		{
 			if(Updater == null) {
 				throw new InvalidOperationException("The Updater was not successfully installed.");
@@ -124,6 +127,20 @@ namespace BlueUpdate
 				ignoredDirectories = $"{{{string.Join(":",application.IgnoredDirectories)}}}";
 			}
 
+			string credentialsUsername = "{";
+			string credentialsPassword = "{";
+			string credentialsDomain = "{";
+			if(credentials != null) {
+				credentialsUsername += credentials.UserName;
+				credentialsPassword += credentials.Password;
+				credentialsDomain += credentials.Domain;
+			}
+			credentialsUsername += "}";
+			credentialsPassword += "}";
+			credentialsDomain += "}";
+
+			string commandLineArgs = string.Join(" ", Environment.GetCommandLineArgs().Skip(1));
+
 			// prepare the arguments
 			string[] arguments = {
 				application.Name,
@@ -132,7 +149,10 @@ namespace BlueUpdate
 				application.Address,
 				ignoredDirectories,
 				updaterBehavior.ToString(),
-				string.Join(" ",Environment.GetCommandLineArgs().Skip(1))
+				credentialsDomain,
+				credentialsUsername,
+				credentialsPassword,
+				commandLineArgs
 			};
 
 			// prepare the process

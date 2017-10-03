@@ -103,6 +103,10 @@ protected override void OnStartup(StartupEventArgs e)
         MessageBox.Show("The update address that you specified does not exist.");
         Shutdown();
         return;
+      } else if(ex.Status == WebExceptionStatus.ProtocolError && ex.Message == "The remote server returned an error: (530) Not logged in.") {
+        MessageBox.Show("You must provide credentials for authentication.");
+        Shutdown();
+        return;
       }
       // there probably is no internet ...
       // do nothing

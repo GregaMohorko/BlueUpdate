@@ -49,6 +49,18 @@ namespace BlueUpdate
 		/// <param name="progressChanged">When doing an asynchronous call, this action will be caled upon any changes of the download progress.</param>
 		public static void Install(UpdatableApp application, Action<AsyncCompletedEventArgs> completed = null, Action<DownloadProgressChangedEventArgs> progressChanged = null)
 		{
+			Install(application, null, completed, progressChanged);
+		}
+
+		/// <summary>
+		/// Installs the specified application with the specified credentials.
+		/// </summary>
+		/// <param name="application">The application to be installed.</param>
+		/// <param name="credentials">The network credentials that are sent to the host and used to authenticate the request.</param>
+		/// <param name="completed">If provided, the download process will be asynchronous and this action will be called upon completion.</param>
+		/// <param name="progressChanged">When doing an asynchronous call, this action will be caled upon any changes of the download progress.</param>
+		public static void Install(UpdatableApp application, ICredentials credentials, Action<AsyncCompletedEventArgs> completed = null, Action<DownloadProgressChangedEventArgs> progressChanged = null)
+		{
 			DirectoryInfo appDirectory = Directories.GetDirectory(application.DirectoryName, true);
 
 			bool exceptionRethrown = false;
@@ -77,7 +89,7 @@ namespace BlueUpdate
 				// download the zip and then call the afterDownload
 				if(completed == null) {
 					// synchronous
-					string filePath = Download(application);
+					string filePath = Download(application,credentials);
 					afterDownload(filePath);
 				} else {
 					// asynchronous
@@ -102,7 +114,7 @@ namespace BlueUpdate
 
 						completed(new AsyncCompletedEventArgs(error, false, null));
 					};
-					Download(application, downloadCompleted, progressChanged);
+					Download(application, credentials, downloadCompleted, progressChanged);
 				}
 			} catch(Exception e) {
 				if(!exceptionRethrown) {
@@ -121,6 +133,18 @@ namespace BlueUpdate
 		/// <param name="progressChanged">When doing an asynchronous call, this action will be caled upon any changes of the download progress.</param>
 		public static void Update(UpdatableApp application, Action<AsyncCompletedEventArgs> completed = null, Action<DownloadProgressChangedEventArgs> progressChanged = null)
 		{
+			Update(application, null, completed, progressChanged);
+		}
+
+		/// <summary>
+		/// Updates the specified application with the specified credentials.
+		/// </summary>
+		/// <param name="application">The application to be updated.</param>
+		/// <param name="credentials">The network credentials that are sent to the host and used to authenticate the request.</param>
+		/// <param name="completed">If provided, the download process will be asynchronous and this action will be called upon completion.</param>
+		/// <param name="progressChanged">When doing an asynchronous call, this action will be caled upon any changes of the download progress.</param>
+		public static void Update(UpdatableApp application, ICredentials credentials, Action<AsyncCompletedEventArgs> completed = null, Action<DownloadProgressChangedEventArgs> progressChanged = null)
+		{
 			DirectoryInfo appDirectory = Directories.GetDirectory(application.DirectoryName, true);
 			string backupSuffix = BlueUpdateConstants.BackupSuffix;
 
@@ -129,7 +153,7 @@ namespace BlueUpdate
 			Action<string> afterDownload = (downloadedZip) =>
 			{
 				// add the backup suffix to all current files
-				IOUtility.AddSuffixToAll(appDirectory, backupSuffix, SearchOption.TopDirectoryOnly,application.IgnoredDirectories);
+				IOUtility.AddSuffixToAll(appDirectory, backupSuffix, SearchOption.TopDirectoryOnly, application.IgnoredDirectories);
 
 				// extract the downloaded zip file to the app directory
 				try {
@@ -143,7 +167,7 @@ namespace BlueUpdate
 					// reverse the backup files
 					IOUtility.RemoveSuffixFromAll(appDirectory, backupSuffix, SearchOption.TopDirectoryOnly);
 
-					exceptionRethrown=true;
+					exceptionRethrown = true;
 					throw e;
 				} finally {
 					// delete the backup files
@@ -162,9 +186,9 @@ namespace BlueUpdate
 				// download the zip and then call the afterDownload
 				if(completed == null) {
 					// synchronous
-					string filePath = Download(application);
+					string filePath = Download(application,credentials);
 					afterDownload(filePath);
-				}else {
+				} else {
 					// asynchronous
 					Action<string, AsyncCompletedEventArgs> downloadCompleted = (filePath, e) =>
 					{
@@ -187,7 +211,7 @@ namespace BlueUpdate
 
 						completed(new AsyncCompletedEventArgs(error, false, null));
 					};
-					Download(application, downloadCompleted, progressChanged);
+					Download(application, credentials, downloadCompleted, progressChanged);
 				}
 			} catch(Exception e) {
 				if(!exceptionRethrown) {
@@ -219,7 +243,7 @@ namespace BlueUpdate
 		/// <summary>
 		/// Downloads the specified application to the temporary folder and returns the file path of the downloaded zip.
 		/// </summary>
-		private static string Download(UpdatableApp application, Action<string, AsyncCompletedEventArgs> completed = null, Action<DownloadProgressChangedEventArgs> progressChanged=null)
+		private static string Download(UpdatableApp application, ICredentials credentials, Action<string, AsyncCompletedEventArgs> completed = null, Action<DownloadProgressChangedEventArgs> progressChanged=null)
 		{
 			string fileName = $"{application.Name} {application.VersionLatest}";
 			string zipFileName = $"{fileName}.zip";
@@ -235,7 +259,7 @@ namespace BlueUpdate
 				// download checksum if it exists
 				XElement xml;
 				try {
-					xml = XElement.Load(downloadXMLAddress);
+					xml = XMLUtility.LoadFromWeb(downloadXMLAddress, credentials);
 				}catch(WebException) {
 					// no xml with checksum is present
 					return;
@@ -258,6 +282,10 @@ namespace BlueUpdate
 
 			// download file to the temp folder
 			using(WebClient webClient=new WebClient()) {
+				if(credentials != null) {
+					webClient.Credentials = credentials;
+				}
+
 				if(completed==null) {
 					// synchronous call
 					webClient.DownloadFile(downloadFileAddress, downloadFilePath);

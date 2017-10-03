@@ -27,6 +27,7 @@ namespace BlueUpdate_Updater
 
 			UpdatableApp appToUpdate;
 			UpdaterBehavior updaterBehavior=UpdaterBehavior.SHOW_MESSAGES;
+			ICredentials credentials = null;
 			string arguments = null;
 
 			try {
@@ -35,7 +36,7 @@ namespace BlueUpdate_Updater
 				UpdatableApp.Current = new UpdatableApp(BlueUpdateConstants.UpdaterName, assembly.Version, null, null, BlueUpdateConstants.UpdaterDirectoryName);
 				
 				// check arguments
-				if(e.Args.Length < 6 || e.Args.Length > 7) {
+				if(e.Args.Length < 9 || e.Args.Length > 10) {
 					throw new Exception("Code 10.");
 				}
 
@@ -43,14 +44,16 @@ namespace BlueUpdate_Updater
 					throw new Exception("Code 20.");
 				}
 
-				appToUpdate = AppFromArgs(e);
+				appToUpdate = AppFromArgs(e.Args);
 
 				if(appToUpdate.Name == "Updater") {
 					throw new Exception("Application must not be named 'Updater'.");
 				}
 
-				if(e.Args.Length == 7) {
-					arguments = UpdateUtility.FromProcessArgument(e.Args[6]);
+				credentials = CredentialsFromArgs(e.Args);
+
+				if(e.Args.Length == 10) {
+					arguments = UpdateUtility.FromProcessArgument(e.Args[9]);
 				}
 			} catch(Exception ex) {
 				HandleError("Error", ex, updaterBehavior);
@@ -60,7 +63,7 @@ namespace BlueUpdate_Updater
 
 			try {
 				// show updater window and wait for it to close
-				MainWindow mainWindow = new MainWindow(appToUpdate);
+				MainWindow mainWindow = new MainWindow(appToUpdate,credentials);
 				mainWindow.ShowDialog();
 				if(mainWindow.Error != null) {
 					throw mainWindow.Error;
@@ -117,7 +120,7 @@ namespace BlueUpdate_Updater
 			MessageBox.Show(message, "Error");
 		}
 
-		private UpdatableApp AppFromArgs(StartupEventArgs e)
+		private UpdatableApp AppFromArgs(string[] args)
 		{
 			string name;
 			Version latestVersion;
@@ -125,25 +128,48 @@ namespace BlueUpdate_Updater
 			string address;
 			string[] ignoredDirectories;
 			{
-				name = UpdateUtility.FromProcessArgument(e.Args[0]);
-				if(!Version.TryParse(UpdateUtility.FromProcessArgument(e.Args[1]), out latestVersion)) {
+				name = UpdateUtility.FromProcessArgument(args[0]);
+				if(!Version.TryParse(UpdateUtility.FromProcessArgument(args[1]), out latestVersion)) {
 					throw new Exception("Code 30.");
 				}
-				directoryName = UpdateUtility.FromProcessArgument(e.Args[2]);
-				address = UpdateUtility.FromProcessArgument(e.Args[3]);
+				directoryName = UpdateUtility.FromProcessArgument(args[2]);
+				address = UpdateUtility.FromProcessArgument(args[3]);
 				
 				// ignored directories format: {dir1:dir2:...:dirn}
-				if(!e.Args[4].StartsWith("{")) {
+				if(!args[4].StartsWith("{")) {
 					throw new Exception("Code 40");
 				}
-				if(!e.Args[4].EndsWith("}")) {
+				if(!args[4].EndsWith("}")) {
 					throw new Exception("Code 50");
 				}
-				string inside = e.Args[4].Substring(1, e.Args[4].Length - 2);
+				string inside = args[4].Substring(1, args[4].Length - 2);
 				ignoredDirectories = (inside == string.Empty) ? null : inside.Split(':');
 			}
 
 			return new UpdatableApp(name, null, latestVersion, address, directoryName,ignoredDirectories);
+		}
+
+		private ICredentials CredentialsFromArgs(string[] args)
+		{
+			string[] credentialsArgs = args.Skip(6).Take(3).ToArray();
+			if(credentialsArgs.Any(a => a.Length < 2)) {
+				throw new Exception("Code 60");
+			}
+			if(credentialsArgs.Any(a => !a.StartsWith("{") || !a.StartsWith("}"))) {
+				throw new Exception("Code 70");
+			}
+
+			if(credentialsArgs.All(a => a.Length == 2)) {
+				return null;
+			}
+
+			credentialsArgs = credentialsArgs.Select(a => a.Substring(1, a.Length - 2)).ToArray();
+
+			string username = credentialsArgs[0];
+			string password = credentialsArgs[1];
+			string domain = credentialsArgs[2];
+
+			return new NetworkCredential(username,password,domain);
 		}
 	}
 }

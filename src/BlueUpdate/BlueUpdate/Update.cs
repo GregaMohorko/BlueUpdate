@@ -149,9 +149,9 @@ namespace BlueUpdate
 				application.Address,
 				ignoredDirectories,
 				updaterBehavior.ToString(),
-				credentialsDomain,
 				credentialsUsername,
 				credentialsPassword,
+				credentialsDomain,
 				commandLineArgs
 			};
 

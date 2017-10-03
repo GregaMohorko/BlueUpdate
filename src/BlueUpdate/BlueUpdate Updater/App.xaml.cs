@@ -155,7 +155,7 @@ namespace BlueUpdate_Updater
 			if(credentialsArgs.Any(a => a.Length < 2)) {
 				throw new Exception("Code 60");
 			}
-			if(credentialsArgs.Any(a => !a.StartsWith("{") || !a.StartsWith("}"))) {
+			if(credentialsArgs.Any(a => !a.StartsWith("{") || !a.EndsWith("}"))) {
 				throw new Exception("Code 70");
 			}
 

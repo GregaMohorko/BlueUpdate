@@ -12,6 +12,15 @@ namespace BlueUpdate.IO
 	/// </summary>
 	public static class Directories
 	{
+		/// <summary>
+		/// Gets the directory of the specified application.
+		/// </summary>
+		/// <param name="app">The application of which to get the directory.</param>
+		public static DirectoryInfo GetDirectory(UpdatableApp app)
+		{
+			return GetDirectory(app.DirectoryName, false);
+		}
+
 		internal static DirectoryInfo GetDirectory(string name,bool createIfNotPresent=false)
 		{
 			DirectoryInfo[] siblingDirectories = Update.RootDirectory.GetDirectories(name, SearchOption.TopDirectoryOnly);

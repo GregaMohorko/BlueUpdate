@@ -10,9 +10,10 @@
     <projectUrl>https://github.com/GregaMohorko/BlueUpdate</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/GregaMohorko/BlueUpdate/master/src/BlueUpdate/BlueUpdate%20Updater/BlueUpdate%20Updater.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <copyright>Copyright (c) 2017 Grega Mohorko</copyright>
-    <tags>Update Updater Version Check Checksum</tags>
+    <description>A toolkit for automatic updating of .NET applications from the web. It can be used as a simple deployment tool. Includes it's own executable updater, which is automatically downloaded the first time the application starts.</description>
+    <summary>$description$</summary>
+    <copyright>$copyright$</copyright>
+    <tags>Update Updater Version Check Checksum Deployment Install</tags>
   </metadata>
   <files>
 	<file src="readme.txt" target="" />

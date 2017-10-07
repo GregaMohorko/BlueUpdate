@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("BlueUpdate")]
-[assembly: AssemblyDescription("A toolkit for automatic updating of .NET applications from the web.")]
+[assembly: AssemblyDescription("A toolkit for automatic updating of .NET applications from the web. Can be used as a deployment tool.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Grega Mohorko")]
 [assembly: AssemblyProduct("BlueUpdate")]

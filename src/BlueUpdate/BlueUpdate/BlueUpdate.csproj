@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="GM.Utility, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GM.Utility.1.0.1\lib\net461\GM.Utility.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

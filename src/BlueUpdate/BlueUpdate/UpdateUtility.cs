@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using BlueUpdate.Common;
 using BlueUpdate.IO;
-using BlueUpdate.Security.Cryptography;
 using GM.Utility;
 
 namespace BlueUpdate
@@ -25,7 +24,7 @@ namespace BlueUpdate
 		{
 			get
 			{
-				var assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.GetAssembly(ReflectionUtility.AssemblyType.Current));
+				var assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.GetAssembly(ReflectionUtility.AssemblyType.CURRENT));
 				return new UpdatableApp(BlueUpdateConstants.UpdaterName, assembly.Version, assembly.Version, BlueUpdateConstants.UpdaterAddress, BlueUpdateConstants.UpdaterDirectoryName);
 			}
 		}
@@ -65,7 +64,7 @@ namespace BlueUpdate
 
 			bool exceptionRethrown = false;
 
-			Action<string> afterDownload = (downloadedZip) =>
+			void afterDownload(string downloadedZip)
 			{
 				// extract to the app directory
 				try {
@@ -81,7 +80,7 @@ namespace BlueUpdate
 				} finally {
 					Directories.DeleteTemp();
 				}
-			};
+			}
 
 			Directories.DeleteTemp();
 
@@ -93,7 +92,7 @@ namespace BlueUpdate
 					afterDownload(filePath);
 				} else {
 					// asynchronous
-					Action<string, AsyncCompletedEventArgs> downloadCompleted = (filePath, e) =>
+					void downloadCompleted(string filePath, AsyncCompletedEventArgs e)
 					{
 						Exception error = null;
 						try {
@@ -113,7 +112,7 @@ namespace BlueUpdate
 						}
 
 						completed(new AsyncCompletedEventArgs(error, false, null));
-					};
+					}
 					Download(application, credentials, downloadCompleted, progressChanged);
 				}
 			} catch(Exception e) {
@@ -150,7 +149,7 @@ namespace BlueUpdate
 
 			bool exceptionRethrown = false;
 
-			Action<string> afterDownload = (downloadedZip) =>
+			void afterDownload(string downloadedZip)
 			{
 				// add the backup suffix to all current files
 				IOUtility.AddSuffixToAll(appDirectory, backupSuffix, SearchOption.TopDirectoryOnly, application.IgnoredDirectories);
@@ -176,7 +175,7 @@ namespace BlueUpdate
 					// delete the temp folder
 					Directories.DeleteTemp();
 				}
-			};
+			}
 
 			Directories.DeleteTemp();
 			try {
@@ -190,7 +189,7 @@ namespace BlueUpdate
 					afterDownload(filePath);
 				} else {
 					// asynchronous
-					Action<string, AsyncCompletedEventArgs> downloadCompleted = (filePath, e) =>
+					void downloadCompleted(string filePath, AsyncCompletedEventArgs e)
 					{
 						Exception error = null;
 						try {
@@ -210,7 +209,7 @@ namespace BlueUpdate
 						}
 
 						completed(new AsyncCompletedEventArgs(error, false, null));
-					};
+					}
 					Download(application, credentials, downloadCompleted, progressChanged);
 				}
 			} catch(Exception e) {
@@ -273,7 +272,7 @@ namespace BlueUpdate
 				string statedChecksum = sha256.Value;
 
 				// get checksum of the downloaded file
-				string fileChecksum = Sha256.GetChecksum(downloadFilePath);
+				string fileChecksum = CryptographyUtility.GetChecksum(downloadFilePath);
 
 				if(statedChecksum != fileChecksum) {
 					throw new Exception("Checksum of the downloaded zip file did not match the one specified in the XML file.");

@@ -48,7 +48,7 @@ namespace BlueUpdate
 				// check updater executable
 				FileVersionInfo updaterFileInfo = UpdateUtility.GetUpdaterExecutableFileInfo();
 				if(updaterFileInfo != null) {
-					ReflectionUtility.AssemblyInformation assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.GetAssembly(ReflectionUtility.AssemblyType.Current));
+					ReflectionUtility.AssemblyInformation assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.GetAssembly(ReflectionUtility.AssemblyType.CURRENT));
 
 					if(updaterFileInfo.CompanyName != assembly.Company || updaterFileInfo.ProductName != BlueUpdateConstants.UpdaterName) {
 						throw new Exception("Updater executable is not legit.");

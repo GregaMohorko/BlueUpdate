@@ -34,9 +34,8 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GM.Utility, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GM.Utility.1.0.1\lib\net461\GM.Utility.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="GM.Utility, Version=1.1.2.0, Culture=neutral, PublicKeyToken=a1ae152199607549, processorArchitecture=MSIL">
+      <HintPath>..\packages\GM.Utility.1.1.2\lib\net461\GM.Utility.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -56,7 +55,6 @@
     <Compile Include="IO\Files.cs" />
     <Compile Include="IO\Directories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\Cryptography\Sha256.cs" />
     <Compile Include="Update.cs" />
     <Compile Include="UpdateUtility.cs" />
   </ItemGroup>

@@ -44,7 +44,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BlueUpdate;
-using ByteSizeLib;
+using CodeBits;
 
 namespace BlueUpdate_Updater.Presentation
 {
@@ -84,28 +84,27 @@ namespace BlueUpdate_Updater.Presentation
 		{
 			string total = null;
 
-			Action<DownloadProgressChangedEventArgs> updateProgressChanged = (e) =>
+			void updateProgressChanged(DownloadProgressChangedEventArgs e)
 			{
-				ByteSize received = ByteSize.FromBytes(e.BytesReceived);
+				string received = ByteSizeFriendlyName.Build(e.BytesReceived);
 				if(total == null) {
-					ByteSize totalBS = ByteSize.FromBytes(e.TotalBytesToReceive);
-					total = totalBS.ToString();
+					total = ByteSizeFriendlyName.Build(e.TotalBytesToReceive);
 				}
-				_TextBlock_Status.Text = $"Downloading: {received.ToString()} / {total}";
+				_TextBlock_Status.Text = $"Downloading: {received} / {total}";
 				_ProgressBar.IsIndeterminate = false;
 				_ProgressBar.Value = e.ProgressPercentage;
-			};
+			}
 
-			Action<AsyncCompletedEventArgs> updateCompleted = (e) =>
+			void updateCompleted(AsyncCompletedEventArgs e)
 			{
 				if(e.Error != null) {
 					Error = e.Error;
-				}else if(e.Cancelled) {
+				} else if(e.Cancelled) {
 					Error = new Exception("The download process was cancelled.");
 				}
 				isFinished = true;
 				Close();
-			};
+			}
 
 			try {
 				UpdateUtility.Update(appToUpdate, credentials, updateCompleted, updateProgressChanged);

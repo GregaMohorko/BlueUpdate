@@ -14,7 +14,7 @@
     <summary>$description$</summary>
     <copyright>$copyright$</copyright>
     <tags>Update Updater Version Check Checksum Deployment Install</tags>
-	<releaseNotes>Updated dependency libraries. Signed the assembly.</releaseNotes>
+	<releaseNotes>Fixed the unsigned dependency bug.</releaseNotes>
   </metadata>
   <files>
 	<file src="readme.txt" target="" />

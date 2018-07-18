@@ -33,7 +33,7 @@ In order to use the `BlueUpdate` toolkit, you must have your own web directory i
 
 Before using the `Update` class, you must set the `UpdatableApp.Current`, which represents the currently running application. This must be done in order to check if the currently running application was installed correctly, to set the root directory, etc.. Every application must be inside the directory with the same name as the application itself. The recommended install path format is: *`/MyCompany/My App/My App.exe`*. The root directory of this example is *`/MyCompany`*. This way, you can have multiple applications inside your companies root directory.
 
-When you use the `Update` class for the first time, its static initializer will check if the updater is installed inside the root directory. If I follow the previous path example, the updater would be installed in *`/MyCompany/Updater`*. If the updater is not yet installed, it will install it. The updater is very small (~33 KB).
+When you use the `Update` class for the first time, its static initializer will check if the updater is installed inside the root directory. If I follow the previous path example, the updater would be installed in *`/MyCompany/Updater`*. If the updater is not yet installed, it will install it. The updater is very small (~1 MB).
 
 The `Update.Check()` simply checks if the latest version of the application is greater than the current. If it is, then it needs to be updated.
 The `Update.Run()` starts the updater application, which will update the currently running application. That is why the currently running application must close immediately after that, otherwise the updater will not be able to update/modify the files of the application.
@@ -133,6 +133,6 @@ protected override void OnStartup(StartupEventArgs e)
 ## Author and License
 Grega Mohorko ([www.mohorko.info](https://www.mohorko.info))
 
-Copyright (c) 2017 Grega Mohorko
+Copyright (c) 2018 Grega Mohorko
 
 [Apache License 2.0](./LICENSE)

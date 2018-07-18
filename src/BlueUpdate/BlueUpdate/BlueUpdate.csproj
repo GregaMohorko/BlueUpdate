@@ -33,9 +33,16 @@
     <DocumentationFile>bin\Release\BlueUpdate.XML</DocumentationFile>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>GM.StrongNameKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GM.Utility, Version=1.1.2.0, Culture=neutral, PublicKeyToken=a1ae152199607549, processorArchitecture=MSIL">
-      <HintPath>..\packages\GM.Utility.1.1.2\lib\net461\GM.Utility.dll</HintPath>
+    <Reference Include="GM.Utility, Version=1.2.6.0, Culture=neutral, PublicKeyToken=a1ae152199607549, processorArchitecture=MSIL">
+      <HintPath>..\packages\GM.Utility.1.2.6\lib\netstandard2.0\GM.Utility.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -59,6 +66,8 @@
     <Compile Include="UpdateUtility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BlueUpdate.licenseheader" />
+    <None Include="GM.StrongNameKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -40,9 +40,8 @@
     <AssemblyOriginatorKeyFile>GM.StrongNameKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GM.Utility, Version=1.2.6.0, Culture=neutral, PublicKeyToken=a1ae152199607549, processorArchitecture=MSIL">
-      <HintPath>..\packages\GM.Utility.1.2.6\lib\netstandard2.0\GM.Utility.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="GM.Utility, Version=1.2.7.0, Culture=neutral, PublicKeyToken=a1ae152199607549, processorArchitecture=MSIL">
+      <HintPath>..\packages\GM.Utility.1.2.7\lib\netstandard2.0\GM.Utility.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

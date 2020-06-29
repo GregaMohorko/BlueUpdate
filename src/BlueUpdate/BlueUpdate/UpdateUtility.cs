@@ -1,7 +1,7 @@
 ﻿/*
 MIT License
 
-Copyright (c) 2018 Grega Mohorko
+Copyright (c) 2020 Gregor Mohorko
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@ SOFTWARE.
 
 Project: BlueUpdate
 Created: 2017-10-29
-Author: GregaMohorko
+Author: Gregor Mohorko
 */
 
 using System;
@@ -53,7 +53,7 @@ namespace BlueUpdate
 			get
 			{
 				var assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.GetAssembly(ReflectionUtility.AssemblyType.CURRENT));
-				return new UpdatableApp(BlueUpdateConstants.UpdaterName, assembly.Version, assembly.Version, BlueUpdateConstants.UpdaterAddress, BlueUpdateConstants.UpdaterDirectoryName);
+				return new UpdatableApp(BlueUpdateConstants.UPDATER_NAME, assembly.Version, assembly.Version, BlueUpdateConstants.UPDATER_ADDRESS, BlueUpdateConstants.UPDATER_DIRECTORY_NAME);
 			}
 		}
 
@@ -173,7 +173,7 @@ namespace BlueUpdate
 		public static void Update(UpdatableApp application, ICredentials credentials, Action<AsyncCompletedEventArgs> completed = null, Action<DownloadProgressChangedEventArgs> progressChanged = null)
 		{
 			DirectoryInfo appDirectory = Directories.GetDirectory(application.DirectoryName, true);
-			string backupSuffix = BlueUpdateConstants.BackupSuffix;
+			string backupSuffix = BlueUpdateConstants.BACKUP_SUFFIX;
 
 			bool exceptionRethrown = false;
 
@@ -278,16 +278,16 @@ namespace BlueUpdate
 			string downloadDirectoryAddress = string.Format("{0}/{1}", application.Address, application.VersionLatest);
 			string downloadFileAddress = string.Format("{0}/{1}", downloadDirectoryAddress, zipFileName);
 			string downloadXMLAddress = string.Format("{0}/{1}", downloadDirectoryAddress, xmlFileName);
-			DirectoryInfo tempDirectory = Directories.GetDirectory(BlueUpdateConstants.TempDirectoryName, true);
+			DirectoryInfo tempDirectory = Directories.GetDirectory(BlueUpdateConstants.TEMP_DIRECTORY_NAME, true);
 			string downloadFilePath = Path.Combine(tempDirectory.FullName, zipFileName);
-			
-			Action afterDownload = delegate
+
+			void afterDownload()
 			{
 				// download checksum if it exists
 				XElement xml;
 				try {
 					xml = XMLUtility.LoadFromWeb(downloadXMLAddress, credentials);
-				}catch(WebException) {
+				} catch(WebException) {
 					// no xml with checksum is present
 					return;
 				}
@@ -305,7 +305,7 @@ namespace BlueUpdate
 				if(statedChecksum != fileChecksum) {
 					throw new Exception("Checksum of the downloaded zip file did not match the one specified in the XML file.");
 				}
-			};
+			}
 
 			// download file to the temp folder
 			using(WebClient webClient=new WebClient()) {

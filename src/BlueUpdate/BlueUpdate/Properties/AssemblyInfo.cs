@@ -34,11 +34,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("BlueUpdate")]
-[assembly: AssemblyDescription("A toolkit for automatic updating of .NET applications from the web. Can be used as a deployment tool.")]
+[assembly: AssemblyDescription("A toolkit for automatic updating of .NET applications from the web. It can be used as a simple deployment tool. Includes it's own executable updater, which is automatically downloaded the first time the application starts.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Grega Mohorko")]
+[assembly: AssemblyCompany("Gregor Mohorko")]
 [assembly: AssemblyProduct("BlueUpdate")]
-[assembly: AssemblyCopyright("Copyright © Grega Mohorko 2018")]
+[assembly: AssemblyCopyright("Copyright © Gregor Mohorko 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -60,5 +60,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.3.3")]
-[assembly: AssemblyFileVersion("1.0.3.3")]
+[assembly: AssemblyVersion("1.0.4.0")]
+[assembly: AssemblyFileVersion("1.0.4.0")]

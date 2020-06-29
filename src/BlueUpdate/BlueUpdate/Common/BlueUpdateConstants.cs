@@ -1,7 +1,7 @@
 ﻿/*
 MIT License
 
-Copyright (c) 2018 Grega Mohorko
+Copyright (c) 2020 Gregor Mohorko
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@ SOFTWARE.
 
 Project: BlueUpdate
 Created: 2017-10-29
-Author: GregaMohorko
+Author: Gregor Mohorko
 */
 
 using System;
@@ -36,12 +36,12 @@ namespace BlueUpdate.Common
 {
 	public static class BlueUpdateConstants
 	{
-		public const string UpdaterName = "BlueUpdate Updater";
-		public const string UpdaterDirectoryName = "Updater";
-		public const string TempDirectoryName = "Updater tmp";
+		public const string UPDATER_NAME = "BlueUpdate Updater";
+		public const string UPDATER_DIRECTORY_NAME = "Updater";
+		public const string TEMP_DIRECTORY_NAME = "Updater tmp";
 
-		internal const string UpdaterAddress = "https://blueupdate.mohorko.info/";
+		internal const string UPDATER_ADDRESS = "https://blueupdate.mohorko.info/";
 
-		internal const string BackupSuffix = "_BUbackup";
+		internal const string BACKUP_SUFFIX = "_BUbackup";
 	}
 }

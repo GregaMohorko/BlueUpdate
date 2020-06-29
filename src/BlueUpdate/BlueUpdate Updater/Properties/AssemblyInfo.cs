@@ -38,9 +38,9 @@ using System.Windows;
 [assembly: AssemblyTitle("BlueUpdate Updater")]
 [assembly: AssemblyDescription("A toolkit for automatic updating of .NET applications from the web. Can be used as a deployment tool.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Grega Mohorko")]
+[assembly: AssemblyCompany("Gregor Mohorko")]
 [assembly: AssemblyProduct("BlueUpdate Updater")]
-[assembly: AssemblyCopyright("Copyright © Grega Mohorko 2018")]
+[assembly: AssemblyCopyright("Copyright © Gregor Mohorko 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -79,5 +79,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.3.3")]
-[assembly: AssemblyFileVersion("1.0.3.3")]
+[assembly: AssemblyVersion("1.0.4.0")]
+[assembly: AssemblyFileVersion("1.0.4.0")]

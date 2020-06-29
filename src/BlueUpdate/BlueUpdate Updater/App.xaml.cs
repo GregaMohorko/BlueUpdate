@@ -1,7 +1,7 @@
 ﻿/*
 MIT License
 
-Copyright (c) 2018 Grega Mohorko
+Copyright (c) 2020 Gregor Mohorko
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@ SOFTWARE.
 
 Project: BlueUpdate Updater
 Created: 2017-10-29
-Author: GregaMohorko
+Author: Gregor Mohorko
 */
 
 using System;
@@ -55,13 +55,13 @@ namespace BlueUpdate_Updater
 
 			UpdatableApp appToUpdate;
 			UpdaterBehavior updaterBehavior=UpdaterBehavior.SHOW_MESSAGES;
-			ICredentials credentials = null;
+			ICredentials credentials;
 			string arguments = null;
 
 			try {
 				// set the current application as the updater
 				var assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.GetAssembly(ReflectionUtility.AssemblyType.APPLICATION));
-				UpdatableApp.Current = new UpdatableApp(BlueUpdateConstants.UpdaterName, assembly.Version, null, null, BlueUpdateConstants.UpdaterDirectoryName);
+				UpdatableApp.Current = new UpdatableApp(BlueUpdateConstants.UPDATER_NAME, assembly.Version, null, null, BlueUpdateConstants.UPDATER_DIRECTORY_NAME);
 				
 				// check arguments
 				if(e.Args.Length < 9 || e.Args.Length > 10) {

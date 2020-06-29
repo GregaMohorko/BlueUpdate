@@ -1,7 +1,7 @@
 ﻿/*
 MIT License
 
-Copyright (c) 2018 Grega Mohorko
+Copyright (c) 2020 Gregor Mohorko
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@ SOFTWARE.
 
 Project: BlueUpdate
 Created: 2017-10-29
-Author: GregaMohorko
+Author: Gregor Mohorko
 */
 
 using System;
@@ -45,7 +45,7 @@ namespace BlueUpdate
 		/// </summary>
 		public static UpdatableApp Current
 		{
-			get { return _current; }
+			get => _current;
 			set
 			{
 				if(_current != null) {

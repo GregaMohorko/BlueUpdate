@@ -71,20 +71,20 @@ namespace BlueUpdate
 					throw new Exception($"The folder name of the application is incorrect: '{Path.GetFileName(currentDirectory)}' should be '{UpdatableApp.Current.DirectoryName}'.");
 				}
 				RootDirectory = Directory.GetParent(currentDirectory);
-				TempDirectoryPath = Path.Combine(RootDirectory.FullName, BlueUpdateConstants.TempDirectoryName);
+				TempDirectoryPath = Path.Combine(RootDirectory.FullName, BlueUpdateConstants.TEMP_DIRECTORY_NAME);
 
 				// check updater executable
 				FileVersionInfo updaterFileInfo = UpdateUtility.GetUpdaterExecutableFileInfo();
 				if(updaterFileInfo != null) {
 					ReflectionUtility.AssemblyInformation assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.GetAssembly(ReflectionUtility.AssemblyType.CURRENT));
 
-					if(updaterFileInfo.CompanyName != assembly.Company || updaterFileInfo.ProductName != BlueUpdateConstants.UpdaterName) {
+					if(updaterFileInfo.CompanyName != assembly.Company || updaterFileInfo.ProductName != BlueUpdateConstants.UPDATER_NAME) {
 						throw new Exception("Updater executable is not legit.");
 					}
 					Version currentVersion = Version.Parse(updaterFileInfo.FileVersion);
 					Version latestVersion = assembly.Version;
 
-					Updater = new UpdatableApp(BlueUpdateConstants.UpdaterName, currentVersion, latestVersion, BlueUpdateConstants.UpdaterAddress, BlueUpdateConstants.UpdaterDirectoryName);
+					Updater = new UpdatableApp(BlueUpdateConstants.UPDATER_NAME, currentVersion, latestVersion, BlueUpdateConstants.UPDATER_ADDRESS, BlueUpdateConstants.UPDATER_DIRECTORY_NAME);
 				}
 
 				// should install/update the updater executable?

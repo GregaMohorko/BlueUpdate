@@ -44,6 +44,11 @@ namespace BlueUpdate
 	public static class Update
 	{
 		/// <summary>
+		/// For backward compatibility, include all previous company names.
+		/// </summary>
+		private static string[] GetAllPastCompanyNames() => new string[] { "Grega Mohorko" };
+
+		/// <summary>
 		/// Root directory of all applications.
 		/// </summary>
 		public static readonly DirectoryInfo RootDirectory;
@@ -78,7 +83,7 @@ namespace BlueUpdate
 				if(updaterFileInfo != null) {
 					ReflectionUtility.AssemblyInformation assembly = ReflectionUtility.GetAssemblyInformation(ReflectionUtility.GetAssembly(ReflectionUtility.AssemblyType.CURRENT));
 
-					if(updaterFileInfo.CompanyName != assembly.Company || updaterFileInfo.ProductName != BlueUpdateConstants.UPDATER_NAME) {
+					if((updaterFileInfo.CompanyName != assembly.Company && !GetAllPastCompanyNames().Contains(updaterFileInfo.CompanyName)) || updaterFileInfo.ProductName != BlueUpdateConstants.UPDATER_NAME) {
 						throw new Exception("Updater executable is not legit.");
 					}
 					Version currentVersion = Version.Parse(updaterFileInfo.FileVersion);
@@ -98,8 +103,8 @@ namespace BlueUpdate
 					UpdateUtility.Update(Updater);
 				}
 			}catch(Exception e) {
-				MessageBox.Show($"Error while initializing BlueUpdate:{Environment.NewLine}{Environment.NewLine}{e.Message}");
-				throw e;
+				_ = MessageBox.Show($"Error while initializing BlueUpdate:{Environment.NewLine}{Environment.NewLine}{e.Message}");
+				throw;
 			}
 		}
 		
